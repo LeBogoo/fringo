@@ -15,6 +15,8 @@
   let randomGoals = [...goals].sort(() => rng.next() - 0.5);
   // pick the first 24 goals
   let board = randomGoals.slice(0, 24);
+  // insert an empty string at position 12
+  board.splice(12, 0, "");
 
   let image = images[Math.floor(rng.next() * images.length)];
 
@@ -124,7 +126,7 @@
       >
     {/each}
     <img src={image} alt="Funny Fringo" class="field" />
-    {#each board.slice(12) as text, index}
+    {#each board.slice(13) as text, index}
       <button
         disabled={isFringo && !fringoIndexes.includes(index + 13)}
         class="field"
