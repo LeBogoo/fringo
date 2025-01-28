@@ -49,7 +49,15 @@
     document.getElementsByTagName("head")[0].appendChild(link);
   }
 
+  // Ensure "Gay" is always checked and can't be unchecked
+  const gayIndex = board.findIndex((goal) => goal === "Gay");
+  if (gayIndex !== -1) {
+    checked[gayIndex] = true;
+  }
+
   function toggleField(index: number) {
+    if (index === gayIndex) return; // Prevent toggling "Gay" field
+
     checked[index] = !checked[index];
 
     checkFringo(index);
@@ -122,8 +130,11 @@
         disabled={isFringo && !fringoIndexes.includes(index)}
         class="field"
         onclick={() => toggleField(index)}
-        class:checked={checked[index]}>{text}</button
+        class:checked={checked[index]}
+        class:gay={index == gayIndex}
       >
+        {text}
+      </button>
     {/each}
     <img src={image} alt="Funny Fringo" class="field" />
     {#each board.slice(13) as text, index}
@@ -131,8 +142,11 @@
         disabled={isFringo && !fringoIndexes.includes(index + 13)}
         class="field"
         onclick={() => toggleField(index + 13)}
-        class:checked={checked[index + 13]}>{text}</button
+        class:checked={checked[index + 13]}
+        class:gay={index + 13 == gayIndex}
       >
+        {text}
+      </button>
     {/each}
   </div>
 </div>
@@ -208,6 +222,31 @@
 
   button.field:hover {
     background-color: #d5d5d5;
+  }
+
+  button.field.gay {
+    background: conic-gradient(
+        red 0%,
+        orange 14%,
+        yellow 28%,
+        green 42%,
+        blue 57%,
+        indigo 71%,
+        violet 85%,
+        red 100%
+      )
+      50% 50%;
+
+    text-shadow:
+      -1px -1px 0 #ff77ed,
+      1px -1px 0 #ff77ed,
+      -1px 1px 0 #ff77ed,
+      1px 1px 0 #ff77ed;
+  }
+
+  button.field.gay:hover {
+    background-color: #d47cd4;
+    cursor: not-allowed;
   }
 
   @keyframes bounce {
