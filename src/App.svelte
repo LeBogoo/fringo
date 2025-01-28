@@ -185,6 +185,7 @@
   }
 
   button.field {
+    border: none;
     cursor: pointer;
     display: flex;
     justify-content: center;
