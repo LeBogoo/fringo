@@ -26,10 +26,9 @@
 
   let image = $state(images[Math.floor(rng.next() * images.length)]);
 
-  let checked = $state(new Array(25).map((e) => false)); // one extra false for the center
+  let checked = $state(new Array(25).map((_, i) => i == 12)); // one extra false for the center
 
   // Ensure the center image is always checked and can't be unchecked
-  checked[12] = true;
 
   let isFringo = $state(false);
   let isDoubleFringo = $state(false);
@@ -155,10 +154,7 @@
 
     image = images[Math.floor(rng.next() * images.length)];
 
-    checked = new Array(25).map((e) => false);
-
-    // Ensure the center image is always checked and can't be unchecked
-    checked[12] = true;
+    checked = new Array(25).map((_, i) => i == 12);
 
     isFringo = false;
     isDoubleFringo = false;
