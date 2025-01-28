@@ -26,12 +26,12 @@
 
   let image = $state(images[Math.floor(rng.next() * images.length)]);
 
-  let checked = $state(new Array(25).map((_, i) => i == 12)); // one extra false for the center
+  let checked = $state(new Array(25).fill(false).map((_, i) => i == 12)); // one extra false for the center
 
   // Ensure the center image is always checked and can't be unchecked
 
   let isFringo = $state(false);
-  let isDoubleFringo = $state(false);
+  let fringoCount = $state(0);
 
   let fringoIndexes = $state([]);
 
@@ -39,14 +39,22 @@
   let headingCharacters = $derived(headingText.split(""));
 
   $effect(() => {
-    if (isDoubleFringo) {
-      headingText = "It's a double Fringo!";
-    } else if (isFringo) {
-      headingText = "It's a Fringo!";
+    if (isFringo) {
+      headingText = `It's a ${toMultiplier(fringoCount)}Fringo!`;
     } else {
       headingText = "Fringo";
     }
   });
+
+  function toMultiplier(amount: number): string {
+    console.log(amount);
+
+    if (amount === 1) return "";
+    if (amount === 2) return "double ";
+    if (amount === 3) return "triple ";
+    if (amount === 4) return "quadruple ";
+    return "";
+  }
 
   // Function to update favicon
   function updateFavicon() {
@@ -70,73 +78,59 @@
 
     checked[index] = !checked[index];
 
-    checkFringo(index);
+    checkFringos();
   }
 
-  function checkFringo(index: number) {
-    fringoIndexes = [];
-    isFringo = false;
-    isDoubleFringo = false;
+  function checkFringos() {
+    for (let col = 0; col < 5; col++) {
+      for (let row = 0; row < 5; row++) {
+        fringoIndexes = [];
+        isFringo = false;
+        fringoCount = 0;
 
-    const row = Math.floor(index / 5);
-    const col = index % 5;
+        // check row
+        if (
+          checked[row * 5] &&
+          checked[row * 5 + 1] &&
+          checked[row * 5 + 2] &&
+          checked[row * 5 + 3] &&
+          checked[row * 5 + 4]
+        ) {
+          isFringo = true;
+          fringoCount++;
+          [row * 5, row * 5 + 1, row * 5 + 2, row * 5 + 3, row * 5 + 4].forEach(
+            (i) => fringoIndexes.push(i)
+          );
+        }
 
-    // check row
-    if (
-      checked[row * 5] &&
-      checked[row * 5 + 1] &&
-      checked[row * 5 + 2] &&
-      checked[row * 5 + 3] &&
-      checked[row * 5 + 4]
-    ) {
-      isFringo = true;
-      [row * 5, row * 5 + 1, row * 5 + 2, row * 5 + 3, row * 5 + 4].forEach(
-        (i) => fringoIndexes.push(i)
-      );
-    }
+        // check column
+        if (
+          checked[col] &&
+          checked[col + 5] &&
+          checked[col + 10] &&
+          checked[col + 15] &&
+          checked[col + 20]
+        ) {
+          isFringo = true;
+          fringoCount++;
+          [col, col + 5, col + 10, col + 15, col + 20].forEach((i) =>
+            fringoIndexes.push(i)
+          );
+        }
 
-    // check column
-    if (
-      checked[col] &&
-      checked[col + 5] &&
-      checked[col + 10] &&
-      checked[col + 15] &&
-      checked[col + 20]
-    ) {
-      isFringo = true;
-      [col, col + 5, col + 10, col + 15, col + 20].forEach((i) =>
-        fringoIndexes.push(i)
-      );
-    }
+        if (checked[0] && checked[6] && checked[18] && checked[24]) {
+          console.log(checked);
 
-    // check diagonals
-    if (
-      (checked[0] && checked[6] && checked[12] && checked[18] && checked[24]) ||
-      (checked[4] && checked[8] && checked[12] && checked[16] && checked[20])
-    ) {
-      isFringo = true;
-      if (
-        checked[0] &&
-        checked[6] &&
-        checked[12] &&
-        checked[18] &&
-        checked[24]
-      ) {
-        [0, 6, 12, 18, 24].forEach((i) => fringoIndexes.push(i));
+          isFringo = true;
+          fringoCount++;
+          [0, 6, 12, 18, 24].forEach((i) => fringoIndexes.push(i));
+        }
+        if (checked[4] && checked[8] && checked[16] && checked[20]) {
+          isFringo = true;
+          fringoCount++;
+          [4, 8, 12, 16, 20].forEach((i) => fringoIndexes.push(i));
+        }
       }
-      if (
-        checked[4] &&
-        checked[8] &&
-        checked[12] &&
-        checked[16] &&
-        checked[20]
-      ) {
-        [4, 8, 12, 16, 20].forEach((i) => fringoIndexes.push(i));
-      }
-    }
-
-    if (fringoIndexes.length > 5) {
-      isDoubleFringo = true;
     }
   }
 
@@ -154,10 +148,10 @@
 
     image = images[Math.floor(rng.next() * images.length)];
 
-    checked = new Array(25).map((_, i) => i == 12);
+    checked = new Array(25).fill(false).map((_, i) => i == 12);
 
     isFringo = false;
-    isDoubleFringo = false;
+    fringoCount = 0;
     fringoIndexes = [];
 
     updateFavicon();
