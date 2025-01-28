@@ -27,6 +27,9 @@
 
   let checked = $state(new Array(25).map((e) => false)); // one extra false for the center
 
+  // Ensure the center image is always checked and can't be unchecked
+  checked[12] = true;
+
   let isFringo = $state(false);
   let isDoubleFringo = $state(false);
 
@@ -106,6 +109,32 @@
       );
     }
 
+    // check diagonals
+    if (
+      (checked[0] && checked[6] && checked[12] && checked[18] && checked[24]) ||
+      (checked[4] && checked[8] && checked[12] && checked[16] && checked[20])
+    ) {
+      isFringo = true;
+      if (
+        checked[0] &&
+        checked[6] &&
+        checked[12] &&
+        checked[18] &&
+        checked[24]
+      ) {
+        [0, 6, 12, 18, 24].forEach((i) => fringoIndexes.push(i));
+      }
+      if (
+        checked[4] &&
+        checked[8] &&
+        checked[12] &&
+        checked[16] &&
+        checked[20]
+      ) {
+        [4, 8, 12, 16, 20].forEach((i) => fringoIndexes.push(i));
+      }
+    }
+
     if (fringoIndexes.length > 5) {
       isDoubleFringo = true;
     }
@@ -126,6 +155,9 @@
     image = images[Math.floor(rng.next() * images.length)];
 
     checked = new Array(25).map((e) => false);
+
+    // Ensure the center image is always checked and can't be unchecked
+    checked[12] = true;
 
     isFringo = false;
     isDoubleFringo = false;
