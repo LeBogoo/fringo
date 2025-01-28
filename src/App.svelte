@@ -215,15 +215,6 @@
     background-color: #72cf56;
   }
 
-  button.field:disabled {
-    background-color: #777 !important;
-    cursor: not-allowed;
-  }
-
-  button.field:hover {
-    background-color: #d5d5d5;
-  }
-
   button.field.gay {
     background: conic-gradient(
         red 0%,
@@ -245,8 +236,19 @@
   }
 
   button.field.gay:hover {
-    background-color: #d47cd4;
     cursor: not-allowed;
+  }
+
+  button.field.gay:disabled,
+  button.field:disabled {
+    background: none;
+    text-shadow: none;
+    background-color: #777 !important;
+    cursor: not-allowed;
+  }
+
+  button.field:hover {
+    background-color: #d5d5d5;
   }
 
   @keyframes bounce {
