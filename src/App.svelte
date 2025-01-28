@@ -8,8 +8,9 @@
     Math.floor(Math.random() * 1000000);
 
   localStorage.setItem("seed", userSeed.toString());
+  const now = Math.floor(Date.now() / 1000 / 60 / 60 / 24);
 
-  let seed = Math.floor(userSeed + Date.now() / 1000 / 60 / 60 / 24);
+  let seed = userSeed + now;
 
   let rng = new Rng(seed);
 
@@ -26,7 +27,19 @@
 
   let image = $state(images[Math.floor(rng.next() * images.length)]);
 
-  let checked = $state(new Array(25).fill(false).map((_, i) => i == 12)); // one extra false for the center
+  let checkedData = JSON.parse(localStorage.getItem("checkedData"));
+
+  if (!checkedData || checkedData.date !== now) {
+    checkedData = {
+      date: now,
+      checked: new Array(25).fill(false).map((_, i) => i == 12),
+    };
+  }
+
+  let checked = $state(checkedData.checked); // one extra false for the center
+  $effect(() => {
+    localStorage.setItem("checkedData", JSON.stringify({ checked, date: now }));
+  });
 
   // Ensure the center image is always checked and can't be unchecked
 
@@ -82,11 +95,14 @@
   }
 
   function checkFringos() {
+    isFringo = false;
+    fringoCount = 0;
+    fringoIndexes = [];
+
     for (let col = 0; col < 5; col++) {
       for (let row = 0; row < 5; row++) {
-        fringoIndexes = [];
-        isFringo = false;
-        fringoCount = 0;
+        // check if that field is already in fringoIndexes
+        if (fringoIndexes.includes(row * 5 + col)) continue;
 
         // check row
         if (
@@ -117,22 +133,23 @@
             fringoIndexes.push(i)
           );
         }
-
-        if (checked[0] && checked[6] && checked[18] && checked[24]) {
-          console.log(checked);
-
-          isFringo = true;
-          fringoCount++;
-          [0, 6, 12, 18, 24].forEach((i) => fringoIndexes.push(i));
-        }
-        if (checked[4] && checked[8] && checked[16] && checked[20]) {
-          isFringo = true;
-          fringoCount++;
-          [4, 8, 12, 16, 20].forEach((i) => fringoIndexes.push(i));
-        }
       }
     }
+
+    // check diagonals
+    if (checked[0] && checked[6] && checked[12] && checked[18] && checked[24]) {
+      isFringo = true;
+      fringoCount++;
+      [0, 6, 12, 18, 24].forEach((i) => fringoIndexes.push(i));
+    }
+
+    if (checked[4] && checked[8] && checked[12] && checked[16] && checked[20]) {
+      isFringo = true;
+      fringoCount++;
+      [4, 8, 12, 16, 20].forEach((i) => fringoIndexes.push(i));
+    }
   }
+  checkFringos();
 
   updateFavicon();
 
