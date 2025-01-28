@@ -1,4 +1,17 @@
-export const images = ["image1_lr.png", "image2_lr.png", "image3_lr.png"];
+export const images = [
+  "image1_lr.png",
+  "image2_lr.png",
+  "image3_lr.png",
+  "image4_lr.png",
+  "image5_lr.png",
+  "image6_lr.png",
+  "image7_lr.png",
+  "image8_lr.png",
+  "image9_lr.png",
+  "image10_lr.png",
+  "image11_lr.png",
+  "image12_lr.png",
+];
 
 export const goals = [
   "Rages at game",
