@@ -1,6 +1,7 @@
 <script lang="ts">
   import { images, goals } from "./data.js";
   import { Rng } from "./lib/rng.js";
+  import ThemeToggle from "./lib/ThemeToggle.svelte";
 
   let userSeed =
     parseInt(localStorage.getItem("seed")) ||
@@ -170,6 +171,8 @@
 <svelte:head>
   <link rel="icon" href={image} />
 </svelte:head>
+
+<ThemeToggle></ThemeToggle>
 
 <div class="app">
   <h1>

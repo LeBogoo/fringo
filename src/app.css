@@ -11,6 +11,10 @@ body {
   overflow: hidden;
 }
 
+[data-theme="dark"] body {
+  background-color: #151515;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -28,6 +32,10 @@ h1 {
   text-transform: uppercase;
 }
 
+[data-theme="dark"] h1 {
+  color: #fff;
+}
+
 .board {
   margin: 0 auto;
   display: grid;
@@ -39,6 +47,10 @@ h1 {
   background-color: black;
   padding: 5px;
   border-radius: 15px;
+}
+
+[data-theme="dark"] .board {
+  background-color: #333;
 }
 
 .field {
@@ -56,6 +68,11 @@ h1 {
   font-size: 2vmin;
 }
 
+[data-theme="dark"] .field {
+  color: white;
+  background-color: #111;
+}
+
 img.field {
   padding: 0;
 }
@@ -71,8 +88,17 @@ button.field {
 button.field.checked {
   background-color: #a1ff84;
 }
+
+[data-theme="dark"] button.field.checked {
+  background-color: #08740c;
+}
+
 button.field.checked:hover {
   background-color: #72cf56;
+}
+
+[data-theme="dark"] button.field.checked:hover {
+  background-color: #0d9912;
 }
 
 button.field.gay {
@@ -92,6 +118,23 @@ button.field.gay {
     1px 1px 0 #ff77ed;
 }
 
+[data-theme="dark"] button.field.gay {
+  background: conic-gradient(
+      darkred 0%,
+      darkorange 14%,
+      rgb(142, 142, 0) 28%,
+      darkgreen 42%,
+      darkblue 57%,
+      indigo 71%,
+      darkviolet 85%,
+      darkred 100%
+    )
+    50% 50%;
+
+  text-shadow: -1px -1px 0 #96378a, 1px -1px 0 #96378a, -1px 1px 0 #96378a,
+    1px 1px 0 #96378a;
+}
+
 button.field.gay:hover {
   cursor: not-allowed;
 }
@@ -100,12 +143,22 @@ button.field.gay:disabled,
 button.field:disabled {
   background: none;
   text-shadow: none;
-  background-color: #777 !important;
+  background-color: #777;
   cursor: not-allowed;
+}
+
+[data-theme="dark"] button.field.gay:disabled,
+[data-theme="dark"] button.field:disabled {
+  background-color: #111;
+  color: #555;
 }
 
 button.field:hover {
   background-color: #d5d5d5;
+}
+
+[data-theme="dark"] button.field:hover {
+  background-color: #222;
 }
 
 @keyframes bounce {
@@ -189,8 +242,18 @@ button.field:hover {
   transition: background-color 0.3s;
 }
 
+[data-theme="dark"] .btn {
+  background-color: #555;
+  color: #fff;
+  border-color: #fff;
+}
+
 .btn:hover {
   background-color: #333;
+}
+
+[data-theme="dark"] .btn:hover {
+  background-color: #666;
 }
 
 .btn-outline {
@@ -198,6 +261,15 @@ button.field:hover {
   color: #000;
 }
 
+[data-theme="dark"] .btn-outline {
+  background-color: #444;
+  color: #fff;
+}
+
 .btn-outline:hover {
   background-color: #eee;
+}
+
+[data-theme="dark"] .btn-outline:hover {
+  background-color: #555;
 }
