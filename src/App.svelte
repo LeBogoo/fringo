@@ -10,17 +10,22 @@
 
   let seed = Math.floor(userSeed + Date.now() / 1000 / 60 / 60 / 24);
 
-  const rng = new Rng(seed);
+  let rng = new Rng(seed);
 
-  let randomGoals = [...goals].sort(() => rng.next() - 0.5);
+  let randomGoals = $state(
+    (() => {
+      let g = [...goals].sort(() => rng.next() - 0.5);
+      g.splice(12, 0, "");
+      return g;
+    })()
+  );
+
   // pick the first 24 goals
-  let board = randomGoals.slice(0, 24);
-  // insert an empty string at position 12
-  board.splice(12, 0, "");
+  let board = $derived(randomGoals.slice(0, 25));
 
-  let image = images[Math.floor(rng.next() * images.length)];
+  let image = $state(images[Math.floor(rng.next() * images.length)]);
 
-  let checked = $state([...randomGoals.map(() => false), false]); // one extra false for the center
+  let checked = $state(new Array(25).map((e) => false)); // one extra false for the center
 
   let isFringo = $state(false);
   let isDoubleFringo = $state(false);
@@ -50,10 +55,12 @@
   }
 
   // Ensure "Gay" is always checked and can't be unchecked
-  const gayIndex = board.findIndex((goal) => goal === "Gay");
-  if (gayIndex !== -1) {
-    checked[gayIndex] = true;
-  }
+  let gayIndex = $derived(board.findIndex((goal) => goal === "Gay"));
+  $effect(() => {
+    if (gayIndex !== -1) {
+      checked[gayIndex] = true;
+    }
+  });
 
   function toggleField(index: number) {
     if (index === gayIndex) return; // Prevent toggling "Gay" field
@@ -83,8 +90,6 @@
       [row * 5, row * 5 + 1, row * 5 + 2, row * 5 + 3, row * 5 + 4].forEach(
         (i) => fringoIndexes.push(i)
       );
-
-      console.log("row", fringoIndexes);
     }
 
     // check column
@@ -106,8 +111,28 @@
     }
   }
 
-  // Call the function to set the initial favicon
   updateFavicon();
+
+  function newBoard() {
+    userSeed++;
+    localStorage.setItem("seed", userSeed.toString());
+    seed++;
+
+    rng = new Rng(seed);
+
+    randomGoals = [...goals].sort(() => rng.next() - 0.5);
+    randomGoals.splice(12, 0, "");
+
+    image = images[Math.floor(rng.next() * images.length)];
+
+    checked = new Array(25).map((e) => false);
+
+    isFringo = false;
+    isDoubleFringo = false;
+    fringoIndexes = [];
+
+    updateFavicon();
+  }
 </script>
 
 <svelte:head>
@@ -125,7 +150,7 @@
     {/each}
   </h1>
   <div class="board">
-    {#each board.slice(0, 12) as text, index}
+    {#each board.slice(0, 12) as text, index (text)}
       <button
         disabled={isFringo && !fringoIndexes.includes(index)}
         class="field"
@@ -137,7 +162,7 @@
       </button>
     {/each}
     <img src={image} alt="Funny Fringo" class="field" />
-    {#each board.slice(13) as text, index}
+    {#each board.slice(13) as text, index (text)}
       <button
         disabled={isFringo && !fringoIndexes.includes(index + 13)}
         class="field"
@@ -149,4 +174,10 @@
       </button>
     {/each}
   </div>
+  <button
+    id="new-game-button"
+    class="btn btn-outline"
+    class:hidden={!isFringo}
+    onclick={() => newBoard()}>New Board</button
+  >
 </div>
