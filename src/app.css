@@ -41,6 +41,7 @@ h1 {
 }
 
 .field {
+  user-select: none;
   font-family: "Nunito";
   text-align: center;
   font-weight: 700;
