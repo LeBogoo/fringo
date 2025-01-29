@@ -9,6 +9,23 @@
 
   function applyTheme(theme: Theme) {
     console.log("Applying theme", themeName);
+    if (!theme) {
+      console.log(
+        `Theme ${themeName} is in the deprecated format. Migrating...`
+      );
+
+      let newTheme: Theme;
+      switch (themeName) {
+        case "dark":
+          newTheme = themes[1];
+          break;
+        default:
+          newTheme = themes[0];
+          break;
+      }
+      themeName = newTheme.name;
+      return;
+    }
     localStorage.setItem("theme", theme.name);
 
     document.documentElement.style.setProperty(
