@@ -72,7 +72,8 @@ export const themes: Theme[] = [
 
   {
     name: "Unicorn Poop",
-    backgroundColor: "#ff9fd7",
+    backgroundColor:
+      "linear-gradient(-45deg,rgb(136, 50, 255),rgb(255, 73, 143))",
     textColor: "#ffffff",
     grid: {
       color: "#7322ff",
