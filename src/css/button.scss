@@ -1,0 +1,45 @@
+.btn {
+  font-family: "Nunito";
+  font-weight: 700;
+  margin: 0.5rem;
+  border: 2px solid #000;
+  background-color: #000;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+[data-theme="dark"] .btn {
+  background-color: #555;
+  color: #fff;
+  border-color: #fff;
+}
+
+.btn:hover {
+  background-color: #333;
+}
+
+[data-theme="dark"] .btn:hover {
+  background-color: #666;
+}
+
+.btn-outline {
+  background-color: white;
+  color: #000;
+}
+
+[data-theme="dark"] .btn-outline {
+  background-color: #444;
+  color: #fff;
+}
+
+.btn-outline:hover {
+  background-color: #eee;
+}
+
+[data-theme="dark"] .btn-outline:hover {
+  background-color: #555;
+}
