@@ -26,17 +26,20 @@
     padding: 0.5rem;
     font-size: 2rem;
     cursor: pointer;
-    transition: transform 0.3s;
   }
 
   .sidebar-toggle.left {
     left: 0.5rem;
-    transition: left 0.3s ease-in-out;
+    transition:
+      left 0.3s ease-in-out,
+      transform 0.3s;
   }
 
   .sidebar-toggle.right {
     right: 0.5rem;
-    transition: right 0.3s ease-in-out;
+    transition:
+      right 0.3s ease-in-out,
+      transform 0.3s;
   }
 
   .sidebar-toggle.left.active {
