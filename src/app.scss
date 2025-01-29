@@ -9,6 +9,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Nunito";
 }
 
 body {
@@ -29,17 +30,35 @@ body {
   height: 100vh;
 }
 
-h1 {
-  font-family: "Nunito";
+h1,
+h2,
+h3 {
   text-align: center;
   font-weight: 700;
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
 }
 
-[data-theme="dark"] h1 {
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3 {
   color: #fff;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+.fringo-heading {
+  margin-bottom: 1rem;
+  text-transform: uppercase;
 }
 
 .board {

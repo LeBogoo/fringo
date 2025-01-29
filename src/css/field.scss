@@ -1,6 +1,5 @@
 .field {
   user-select: none;
-  font-family: "Nunito";
   text-align: center;
   font-weight: 700;
   display: inline-block;
@@ -47,34 +46,28 @@ button.field.checked:hover {
 }
 
 button.field.gay {
-  background: conic-gradient(
-      red 0%,
+  background: conic-gradient(red 0%,
       orange 14%,
       yellow 28%,
       green 42%,
       blue 57%,
       indigo 71%,
       violet 85%,
-      red 100%
-    )
-    50% 50%;
+      red 100%) 50% 50%;
 
   text-shadow: -1px -1px 0 #ff77ed, 1px -1px 0 #ff77ed, -1px 1px 0 #ff77ed,
     1px 1px 0 #ff77ed;
 }
 
 [data-theme="dark"] button.field.gay {
-  background: conic-gradient(
-      darkred 0%,
+  background: conic-gradient(darkred 0%,
       darkorange 14%,
       rgb(142, 142, 0) 28%,
       darkgreen 42%,
       darkblue 57%,
       indigo 71%,
       darkviolet 85%,
-      darkred 100%
-    )
-    50% 50%;
+      darkred 100%) 50% 50%;
 
   text-shadow: -1px -1px 0 #96378a, 1px -1px 0 #96378a, -1px 1px 0 #96378a,
     1px 1px 0 #96378a;
