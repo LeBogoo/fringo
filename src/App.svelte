@@ -1,9 +1,10 @@
 <script lang="ts">
   import { images, goals } from "./data.js";
-  import { Rng } from "./lib/rng.js";
+  import { themes } from "./themes";
   import ThemeToggle from "./lib/ThemeToggle.svelte";
   import Board from "./lib/Board.svelte";
   import Sidebar from "./lib/Sidebar.svelte";
+  import ThemeList from "./lib/ThemeList.svelte";
 
   let userSeed =
     parseInt(localStorage.getItem("seed")) ||
@@ -82,13 +83,12 @@
   <link rel="icon" href={image} />
 </svelte:head>
 
-<ThemeToggle></ThemeToggle>
-
 <Sidebar side="left">
+  <ThemeList {themes}></ThemeList>
 </Sidebar>
 
 <div class="app">
-  <h1>
+  <h1 class="fringo-heading">
     {#each headingCharacters as char, index}
       <span
         class:space={char === " "}
@@ -102,7 +102,7 @@
   <Board bind:this={fringoBoard} {board} {onFringo} {image} />
   <button
     id="new-game-button"
-    class="btn btn-outline"
+    class="btn"
     class:hidden={!isFringo}
     onclick={() => newBoard()}
   >

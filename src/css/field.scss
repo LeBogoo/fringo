@@ -6,15 +6,12 @@
   padding: 5px;
   width: 100%;
   aspect-ratio: 1;
-  color: black;
-  background-color: white;
+  color: var(--theme-field-default-text-color, var(--theme-text-color));
+  background: var(--theme-field-default-color);
+  text-shadow: -1px -1px 0 var(--theme-field-default-text-outline-color), 1px -1px 0 var(--theme-field-default-text-outline-color), -1px 1px 0 var(--theme-field-default-text-outline-color),
+    1px 1px 0 var(--theme-field-default-text-outline-color);
   border-radius: 10px;
   font-size: 2vmin;
-}
-
-[data-theme="dark"] .field {
-  color: white;
-  background-color: #111;
 }
 
 img.field {
@@ -30,71 +27,33 @@ button.field {
 }
 
 button.field.checked {
-  background-color: #a1ff84;
-}
-
-[data-theme="dark"] button.field.checked {
-  background-color: #08740c;
+  background: var(--theme-field-checked-color);
 }
 
 button.field.checked:hover {
-  background-color: #72cf56;
-}
-
-[data-theme="dark"] button.field.checked:hover {
-  background-color: #0d9912;
+  background: var(--theme-field-checked-hover-color);
 }
 
 button.field.gay {
-  background: conic-gradient(red 0%,
-      orange 14%,
-      yellow 28%,
-      green 42%,
-      blue 57%,
-      indigo 71%,
-      violet 85%,
-      red 100%) 50% 50%;
+  background: var(--theme-field-gay-color);
 
-  text-shadow: -1px -1px 0 #ff77ed, 1px -1px 0 #ff77ed, -1px 1px 0 #ff77ed,
-    1px 1px 0 #ff77ed;
-}
-
-[data-theme="dark"] button.field.gay {
-  background: conic-gradient(darkred 0%,
-      darkorange 14%,
-      rgb(142, 142, 0) 28%,
-      darkgreen 42%,
-      darkblue 57%,
-      indigo 71%,
-      darkviolet 85%,
-      darkred 100%) 50% 50%;
-
-  text-shadow: -1px -1px 0 #96378a, 1px -1px 0 #96378a, -1px 1px 0 #96378a,
-    1px 1px 0 #96378a;
+  text-shadow: -1px -1px 0 var(--theme-field-gay-text-outline-color), 1px -1px 0 var(--theme-field-gay-text-outline-color), -1px 1px 0 var(--theme-field-gay-text-outline-color),
+    1px 1px 0 var(--theme-field-gay-text-outline-color);
 }
 
 button.field.gay:hover {
   cursor: not-allowed;
+  background: var(--theme-field-gay-hover-color, var(--theme-field-default-hover-color));
 }
 
 button.field.gay:disabled,
 button.field:disabled {
   background: none;
   text-shadow: none;
-  background-color: #777;
+  background: var(--theme-field-disabled-color);
   cursor: not-allowed;
 }
 
-[data-theme="dark"] button.field.gay:disabled,
-[data-theme="dark"] button.field:disabled {
-  background-color: #111;
-  color: #555;
-}
-
 button.field:hover {
-  background-color: #d5d5d5;
-}
-
-[data-theme="dark"] button.field:hover {
-  background-color: #222;
+  background: var(--theme-field-default-hover-color);
 }
