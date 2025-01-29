@@ -17,13 +17,7 @@
 {#if url}
   <img src={url} alt="Funny Fringo" class="field" />
 {:else}
-  <button
-    {onclick}
-    class="field"
-    {disabled}
-    class:checked
-    class:gay={text == "Gay"}
-  >
+  <button {onclick} class="field" class:checked class:gay={text == "Gay"}>
     {text}
   </button>
 {/if}

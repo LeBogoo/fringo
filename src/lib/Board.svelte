@@ -120,11 +120,7 @@
 <div class="board">
   {#each board as text, index (text)}
     {#if index != 12}
-      <Field
-        {text}
-        disabled={isFringo && !fringoIndexes.includes(index)}
-        onclick={() => toggle(index)}
-        checked={checked[index]}
+      <Field {text} onclick={() => toggle(index)} checked={checked[index]}
       ></Field>
     {:else}
       <Field url={image}></Field>

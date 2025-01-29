@@ -64,17 +64,29 @@
   }
 
   function onFringo(amount: number) {
-    let multipliers = {
+    let vowles = ["a", "e", "i", "o", "u"];
+
+    let multipliers: { [key: number]: string } = {
       1: "",
       2: "Double ",
       3: "Triple ",
       4: "Quadruple ",
+      5: "Quintuple ",
+      6: "Sextuple ",
+      7: "Septuple ",
+      8: "Octuple ",
+      9: "Nonuple ",
+      10: "Decuple ",
+      11: "Undecuple ",
+      12: "Duodecuple ",
     };
 
     let multiplier = multipliers[amount];
+    let article =
+      multiplier && vowles.includes(multiplier[0].toLowerCase()) ? "an" : "a";
 
     isFringo = amount != 0;
-    if (isFringo) headingText = `It's a ${multiplier}Fringo!`;
+    if (isFringo) headingText = `It's ${article} ${multiplier}Fringo!`;
     else headingText = "Fringo";
   }
 </script>
