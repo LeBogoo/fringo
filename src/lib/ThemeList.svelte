@@ -73,22 +73,6 @@
       theme.field.checked.textOutlineColor || ""
     );
     document.documentElement.style.setProperty(
-      "--theme-field-disabled-color",
-      theme.field.disabled.color
-    );
-    document.documentElement.style.setProperty(
-      "--theme-field-disabled-hover-color",
-      theme.field.disabled.hoverColor
-    );
-    document.documentElement.style.setProperty(
-      "--theme-field-disabled-text-color",
-      theme.field.disabled.textColor || ""
-    );
-    document.documentElement.style.setProperty(
-      "--theme-field-disabled-text-outline-color",
-      theme.field.disabled.textOutlineColor || ""
-    );
-    document.documentElement.style.setProperty(
       "--theme-field-gay-color",
       theme.field.gay.color
     );

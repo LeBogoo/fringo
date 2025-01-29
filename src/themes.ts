@@ -17,10 +17,6 @@ export const themes: Theme[] = [
         color: "#a1ff84",
         hoverColor: "#72cf56",
       },
-      disabled: {
-        color: "#777777",
-        hoverColor: "#aaaaaa",
-      },
       gay: {
         color:
           "conic-gradient(red 0%, orange 14%, yellow 28%, green 42%, blue 57%, indigo 71%, violet 85%, red 100%) 50% 50%",
@@ -55,11 +51,6 @@ export const themes: Theme[] = [
       checked: {
         color: "#08740c",
         hoverColor: "#0d9912",
-      },
-      disabled: {
-        color: "#111111",
-        hoverColor: "#222222",
-        textColor: "#555555",
       },
       gay: {
         color:

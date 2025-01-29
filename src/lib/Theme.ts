@@ -15,7 +15,6 @@ export interface Theme {
   field: {
     default: ButtonColors;
     checked: ButtonColors;
-    disabled: ButtonColors;
     gay: ButtonColors;
   };
   button: ButtonColors;
