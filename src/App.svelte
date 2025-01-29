@@ -3,6 +3,7 @@
   import { Rng } from "./lib/rng.js";
   import ThemeToggle from "./lib/ThemeToggle.svelte";
   import Board from "./lib/Board.svelte";
+  import Sidebar from "./lib/Sidebar.svelte";
 
   let userSeed =
     parseInt(localStorage.getItem("seed")) ||
@@ -82,6 +83,9 @@
 </svelte:head>
 
 <ThemeToggle></ThemeToggle>
+
+<Sidebar side="left">
+</Sidebar>
 
 <div class="app">
   <h1>
