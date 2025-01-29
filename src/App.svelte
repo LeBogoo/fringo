@@ -5,6 +5,7 @@
   import Board from "./lib/Board.svelte";
   import Sidebar from "./lib/Sidebar.svelte";
   import ThemeList from "./lib/ThemeList.svelte";
+  import DebugDisplay from "./lib/DebugDisplay.svelte";
 
   let userSeed =
     parseInt(localStorage.getItem("seed")) ||
@@ -99,6 +100,8 @@
 <Sidebar side="left">
   <ThemeList {themes}></ThemeList>
 </Sidebar>
+
+<DebugDisplay></DebugDisplay>
 
 <div class="app">
   <h1 class="fringo-heading">
