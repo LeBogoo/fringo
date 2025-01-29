@@ -1,6 +1,6 @@
 import { mount } from "svelte";
 import "remixicon/fonts/remixicon.css";
-import "./app.scss";
+import "./css/app.scss";
 import "./css/field.scss";
 import "./css/button.scss";
 import "./css/sidebar.scss";
