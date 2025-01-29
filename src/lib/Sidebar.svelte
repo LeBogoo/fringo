@@ -32,4 +32,48 @@
   .content {
     padding: 0 1rem;
   }
+
+  .sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: max(25vw, 400px);
+    z-index: 1;
+    background: var(--theme-sidebar-color);
+    backdrop-filter: blur(var(--theme-sidebar-background-blur));
+  }
+
+  .sidebar.left {
+    left: min(-25vw, -400px);
+    transition: left 0.3s ease-in-out;
+    border-radius: 0 1rem 1rem 0;
+  }
+
+  .sidebar.right {
+    right: min(-25vw, -400px);
+    transition: right 0.3s ease-in-out;
+    border-radius: 1rem 0 0 1rem;
+  }
+
+  .sidebar.left.visible {
+    left: 0;
+  }
+
+  .sidebar.right.visible {
+    right: 0;
+  }
+
+  @media (max-width: 750px) {
+    .sidebar {
+      width: 90vw;
+    }
+
+    .sidebar.left {
+      left: -90vw;
+    }
+
+    .sidebar.right {
+      right: -90vw;
+    }
+  }
 </style>

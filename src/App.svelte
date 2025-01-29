@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { images, goals } from "./data.js";
+  import { images, goals } from "./data";
   import { themes } from "./themes";
-  import ThemeToggle from "./lib/ThemeToggle.svelte";
+  import { Rng } from "./lib/rng";
   import Board from "./lib/Board.svelte";
   import Sidebar from "./lib/Sidebar.svelte";
   import ThemeList from "./lib/ThemeList.svelte";

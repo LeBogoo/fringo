@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Field from "./Field.svelte";
+
   const { board, onFringo, image } = $props();
 
   const now = Math.floor(Date.now() / 1000 / 60 / 60 / 24);
@@ -116,27 +118,16 @@
 </script>
 
 <div class="board">
-  {#each board.slice(0, 12) as text, index (text)}
-    <button
-      disabled={isFringo && !fringoIndexes.includes(index)}
-      class="field"
-      onclick={() => toggle(index)}
-      class:checked={checked[index]}
-      class:gay={text == "Gay"}
-    >
-      {text}
-    </button>
-  {/each}
-  <img src={image} alt="Funny Fringo" class="field" />
-  {#each board.slice(13) as text, index (text)}
-    <button
-      disabled={isFringo && !fringoIndexes.includes(index + 13)}
-      class="field"
-      onclick={() => toggle(index + 13)}
-      class:checked={checked[index + 13]}
-      class:gay={text == "Gay"}
-    >
-      {text}
-    </button>
+  {#each board as text, index (text)}
+    {#if index != 12}
+      <Field
+        {text}
+        disabled={isFringo && !fringoIndexes.includes(index)}
+        onclick={() => toggle(index)}
+        checked={checked[index]}
+      ></Field>
+    {:else}
+      <Field url={image}></Field>
+    {/if}
   {/each}
 </div>

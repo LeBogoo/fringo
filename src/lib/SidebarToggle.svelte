@@ -14,3 +14,47 @@
     <i class="ri-arrow-left-line"></i>
   {/if}
 </button>
+
+<style>
+  .sidebar-toggle {
+    position: fixed;
+    top: 0.5rem;
+    z-index: 1000;
+    background: transparent;
+    color: var(--theme-text-color);
+    border: none;
+    padding: 0.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .sidebar-toggle.left {
+    left: 0.5rem;
+    transition: left 0.3s ease-in-out;
+  }
+
+  .sidebar-toggle.right {
+    right: 0.5rem;
+    transition: right 0.3s ease-in-out;
+  }
+
+  .sidebar-toggle.left.active {
+    transform: rotate(180deg);
+    left: calc(max(25vw, 400px) - 4rem);
+  }
+
+  .sidebar-toggle.right.active {
+    transform: rotate(-180deg);
+  }
+
+  @media (max-width: 750px) {
+    .sidebar-toggle.left.active {
+      left: calc(90vw - 4rem);
+    }
+
+    .sidebar-toggle.right.active {
+      right: calc(90vw - 4rem);
+    }
+  }
+</style>
