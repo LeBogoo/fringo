@@ -142,7 +142,7 @@
 
   .theme-list {
     padding: 1rem;
-    background-color: var(--theme-background-color);
+    background: var(--theme-background-color);
     border-radius: 1rem;
   }
 </style>
