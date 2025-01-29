@@ -38,6 +38,9 @@
     top: 0;
     bottom: 0;
     width: max(25vw, 400px);
+    max-height: 100vh;
+    overflow: auto;
+    scrollbar-width: none;
     z-index: 1;
     background: var(--theme-sidebar-color);
     backdrop-filter: blur(var(--theme-sidebar-background-blur));
@@ -61,6 +64,13 @@
 
   .sidebar.right.visible {
     right: 0;
+  }
+
+  :global(.sidebar-panel) {
+    padding: 1rem;
+    background: var(--theme-background-color);
+    border-radius: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   @media (max-width: 750px) {

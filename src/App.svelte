@@ -1,6 +1,5 @@
 <script lang="ts">
   import { images, goals } from "./data";
-  import { themes } from "./themes";
   import { Rng } from "./lib/rng";
   import Board from "./lib/Board.svelte";
   import Sidebar from "./lib/Sidebar.svelte";
@@ -98,7 +97,7 @@
 </svelte:head>
 
 <Sidebar side="left">
-  <ThemeList {themes}></ThemeList>
+  <ThemeList></ThemeList>
 </Sidebar>
 
 <DebugDisplay></DebugDisplay>

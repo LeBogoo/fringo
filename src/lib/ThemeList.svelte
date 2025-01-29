@@ -1,21 +1,30 @@
 <script lang="ts">
   import type { Theme } from "./Theme";
+  import { themes } from "../themes.svelte.js";
+  import ThemeEditor from "./ThemeEditor.svelte";
 
-  let { themes }: { themes: Theme[] } = $props();
+  let customThemes: Theme[] = $state(
+    JSON.parse(localStorage.getItem("custom-themes") || "[]")
+  );
 
-  let themeName = $state(localStorage.getItem("theme") || themes[0].name);
+  let allThemes = $derived([...themes, ...customThemes]);
 
-  const theme = $derived(themes.find((t) => t.name === themeName));
+  let themeId = $state(localStorage.getItem("theme") || themes[0].id);
+
+  let currentTheme = $state(null);
+
+  $effect(() => {
+    currentTheme = [...themes, ...customThemes].find((t) => t.id === themeId);
+  });
+
+  let isEditorOpen = $derived(currentTheme?.type == "custom");
 
   function applyTheme(theme: Theme) {
-    console.log("Applying theme", themeName);
     if (!theme) {
-      console.log(
-        `Theme ${themeName} is in the deprecated format. Migrating...`
-      );
+      console.log(`Theme ${themeId} is in the deprecated format. Migrating...`);
 
       let newTheme: Theme;
-      switch (themeName) {
+      switch (themeId) {
         case "dark":
           newTheme = themes[1];
           break;
@@ -23,10 +32,11 @@
           newTheme = themes[0];
           break;
       }
-      themeName = newTheme.name;
+      themeId = newTheme.id;
       return;
     }
-    localStorage.setItem("theme", theme.name);
+    localStorage.setItem("theme", theme.id);
+    localStorage.setItem("custom-themes", JSON.stringify(customThemes));
 
     document.documentElement.style.setProperty(
       "--theme-background-color",
@@ -108,41 +118,162 @@
       "--theme-sidebar-background-blur",
       theme.sidebar.backgroundBlur
     );
+
+    document.documentElement.style.setProperty(
+      "--theme-slider-color",
+      theme.input.color
+    );
+    document.documentElement.style.setProperty(
+      "--theme-slider-color-active",
+      theme.input.activeColor
+    );
+    document.documentElement.style.setProperty(
+      "--theme-slider-color-indicator",
+      theme.input.indicatorColor
+    );
   }
 
   $effect(() => {
-    applyTheme(theme);
+    applyTheme(currentTheme);
   });
+
+  function newCustomTheme() {
+    let newTheme: Theme = JSON.parse(JSON.stringify(currentTheme));
+    newTheme.type = "custom";
+    let untitledThemeCounter = 1;
+    while (
+      customThemes.find(
+        (t) => t.name === `Untitled Theme ${untitledThemeCounter}`
+      )
+    ) {
+      untitledThemeCounter++;
+    }
+    newTheme.name = `Untitled Theme ${untitledThemeCounter}`;
+    newTheme.id = crypto.randomUUID();
+
+    customThemes.push(newTheme);
+
+    themeId = newTheme.id;
+  }
+
+  function loadCustomTheme() {
+    // open prompt to paste theme json
+    let themeJson = prompt("Paste your theme data here:");
+    if (!themeJson) {
+      alert("Error: No theme data.");
+      return;
+    }
+
+    try {
+      let newTheme: Theme = JSON.parse(themeJson);
+      if (!newTheme.id) {
+        alert("Error: Invalid theme data.");
+        return;
+      }
+      newTheme.type = "custom";
+
+      // check if the id already exist. if so, replace the existing one
+      let existingTheme = customThemes.find((t) => t.id === newTheme.id);
+      if (existingTheme) {
+        let index = customThemes.indexOf(existingTheme);
+        customThemes[index] = newTheme;
+      } else customThemes.push(newTheme);
+
+      themeId = newTheme.id;
+    } catch (e) {
+      alert("Error: Invalid theme data.");
+      return;
+    }
+  }
+
+  function shareTheme(theme: Theme) {
+    navigator.clipboard.writeText(JSON.stringify(theme));
+
+    setTimeout(() => {
+      alert("Theme copied to clipboard!");
+    }, 10);
+  }
+
+  function delteTheme(theme: Theme) {
+    let index = customThemes.indexOf(theme);
+    customThemes.splice(index, 1);
+    localStorage.setItem("custom-themes", JSON.stringify(customThemes));
+
+    index += themes.length;
+
+    if (themeId == theme.id) themeId = allThemes[index - 1].id;
+  }
 </script>
 
-<div class="theme-list">
+<div class="sidebar-panel">
   <h3>Themes</h3>
-  {#each themes as theme (theme.name)}
+  {#each allThemes as theme (theme.id)}
     <label>
-      <input
-        type="radio"
-        name="theme"
-        value={theme.name}
-        bind:group={themeName}
-      />
+      <input type="radio" name="theme" value={theme.id} bind:group={themeId} />
       {theme.name}
+
+      {#if theme.type === "custom"}
+        <button
+          class="icon-button"
+          aria-label="Share Theme"
+          onclick={() => shareTheme(theme)}
+        >
+          <i class="ri-share-line"></i>
+        </button>
+
+        <button
+          class="icon-button"
+          aria-label="Delete Theme"
+          onclick={() => delteTheme(theme)}
+        >
+          <i class="ri-delete-bin-6-line"></i>
+        </button>
+      {/if}
     </label>
   {/each}
+
+  <div class="btn-group">
+    <button class="btn btn-sm" onclick={() => newCustomTheme()}>
+      <i class="ri-add-line"></i> New Custom Theme
+    </button>
+    <button class="btn btn-sm" onclick={() => loadCustomTheme()}>
+      <i class="ri-upload-2-line"></i> Load Custom Theme
+    </button>
+  </div>
+
+  <small class="theme-storage-info">
+    Custom Themes are stored in your browser.<br />No manual saving is required.
+  </small>
 </div>
+
+{#if isEditorOpen}
+  <ThemeEditor bind:theme={currentTheme}></ThemeEditor>
+{/if}
 
 <style>
   label {
     display: block;
     margin: 0.5rem 0;
+    height: 100%;
   }
 
   input {
     margin-right: 0.5rem;
   }
 
-  .theme-list {
-    padding: 1rem;
-    background: var(--theme-background-color);
-    border-radius: 1rem;
+  .theme-storage-info {
+    margin-top: 1rem;
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 0px;
+    text-align: center;
+  }
+
+  .icon-button {
+    background: none;
+    color: var(--theme-button-text-color);
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
   }
 </style>

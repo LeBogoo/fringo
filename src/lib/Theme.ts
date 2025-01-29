@@ -6,6 +6,8 @@ export interface ButtonColors {
 }
 
 export interface Theme {
+  id: string;
+  type: "application" | "custom";
   name: string;
   backgroundColor: string;
   textColor: string;
@@ -21,5 +23,10 @@ export interface Theme {
   sidebar: {
     color: string;
     backgroundBlur: string;
+  };
+  input: {
+    color: string;
+    indicatorColor: string;
+    activeColor: string;
   };
 }

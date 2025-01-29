@@ -2,7 +2,9 @@ import type { Theme } from "./lib/Theme";
 
 export const themes: Theme[] = [
   {
+    id: "fringo-default-light",
     name: "Fringo Light",
+    type: "application",
     backgroundColor: "#aaaaaa",
     textColor: "#000000",
     grid: {
@@ -33,10 +35,17 @@ export const themes: Theme[] = [
       color: "#7e7e7eaa",
       backgroundBlur: "5px",
     },
+    input: {
+      color: "#cccccc",
+      activeColor: "#66d943",
+      indicatorColor: "#ffffff",
+    },
   },
 
   {
+    id: "fringo-default-dark",
     name: "Fringo Dark",
+    type: "application",
     backgroundColor: "#151515",
     textColor: "#ffffff",
     grid: {
@@ -68,12 +77,18 @@ export const themes: Theme[] = [
       color: "#212121aa",
       backgroundBlur: "5px",
     },
+    input: {
+      color: "#333333",
+      activeColor: "#16931b",
+      indicatorColor: "#ffffff",
+    },
   },
 
   {
+    id: "fringo-default-unicorn",
     name: "Unicorn Poop",
-    backgroundColor:
-      "linear-gradient(-45deg,rgb(136, 50, 255),rgb(255, 73, 143))",
+    type: "application",
+    backgroundColor: "linear-gradient(-45deg,#8832ff, #ff498f)",
     textColor: "#ffffff",
     grid: {
       color: "#7322ff",
@@ -102,6 +117,11 @@ export const themes: Theme[] = [
     sidebar: {
       color: "#9b277faa",
       backgroundBlur: "5px",
+    },
+    input: {
+      color: "#ff87e4",
+      activeColor: "#ff00f5",
+      indicatorColor: "#ffffff",
     },
   },
 ];
