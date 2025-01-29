@@ -32,6 +32,7 @@
   let isFringo = $state(false);
   let headingText = $state("Fringo");
   const headingCharacters = $derived(headingText.split(""));
+  const headlingLength = $derived(headingText.length);
 
   function updateFavicon() {
     const link = (document.querySelector("link[rel~='icon']") ||
@@ -105,7 +106,7 @@
       <span
         class:space={char === " "}
         class:fringo={isFringo && char !== " "}
-        style="animation-delay: {index * 0.1}s;"
+        style="animation-delay: -{(headlingLength - index) * 0.1}s;"
       >
         {char}
       </span>
