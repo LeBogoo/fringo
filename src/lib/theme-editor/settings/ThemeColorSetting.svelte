@@ -26,13 +26,3 @@
     </td>
   </tr>
 {/if}
-
-<style>
-  :global(.theme-setting input[type="text"]) {
-    background-color: white;
-    color: black;
-    border: 1px solid var(--theme-text-color);
-    padding: 0.2rem;
-    border-radius: 5px;
-  }
-</style>

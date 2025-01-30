@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Theme } from "./Theme";
   import { themes } from "../themes.svelte.js";
-  import ThemeEditor from "./ThemeEditor.svelte";
+  import ThemeEditor from "./theme-editor/ThemeEditor.svelte";
 
   let customThemes: Theme[] = $state(
     JSON.parse(localStorage.getItem("custom-themes") || "[]")

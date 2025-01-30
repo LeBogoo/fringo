@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ButtonColors } from "./Theme";
+  import type { ButtonColors } from "../../Theme";
   import ThemeColorSetting from "./ThemeColorSetting.svelte";
 
   let {

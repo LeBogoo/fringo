@@ -1,9 +1,11 @@
 <script lang="ts">
-  import type { Theme } from "./Theme";
+  import type { Theme } from "../Theme";
 
-  import ThemeColorSetting from "./ThemeColorSetting.svelte";
-  import ThemeButtonColorsSetting from "./ThemeButtonColorsSetting.svelte";
-  import ToggleSwitch from "./ToggleSwitch.svelte";
+  import ToggleSwitch from "../ToggleSwitch.svelte";
+
+  import ThemeColorSetting from "./settings/ThemeColorSetting.svelte";
+  import ThemeButtonColorsSetting from "./settings/ThemeButtonColorsSetting.svelte";
+  import ThemeTextSetting from "./settings/ThemeTextSetting.svelte";
 
   const { theme = $bindable() }: { theme: Theme } = $props();
 
@@ -24,14 +26,12 @@
           <h4>General</h4>
         </td>
       </tr>
-      <tr class="theme-setting">
-        <td>
-          <label for="theme-name">Theme Name:</label>
-        </td>
-        <td>
-          <input id="theme-name" type="text" bind:value={theme.name} />
-        </td>
-      </tr>
+      <ThemeTextSetting
+        label="Theme Name"
+        {expertMode}
+        expertOnly={false}
+        bind:value={theme.name}
+      />
       <ThemeColorSetting
         label={"Text Color"}
         expertOnly={false}
