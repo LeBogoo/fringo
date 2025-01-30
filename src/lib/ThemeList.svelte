@@ -17,7 +17,7 @@
     currentTheme = [...themes, ...customThemes].find((t) => t.id === themeId);
   });
 
-  let isEditorOpen = $derived(currentTheme?.type == "custom");
+  let isEditorOpen = $derived(customThemes.includes(currentTheme));
 
   function applyTheme(theme: Theme) {
     if (!theme) {
@@ -139,7 +139,6 @@
 
   function newCustomTheme() {
     let newTheme: Theme = JSON.parse(JSON.stringify(currentTheme));
-    newTheme.type = "custom";
     let untitledThemeCounter = 1;
     while (
       customThemes.find(
@@ -150,6 +149,7 @@
     }
     newTheme.name = `Untitled Theme ${untitledThemeCounter}`;
     newTheme.id = crypto.randomUUID();
+    newTheme.author = "";
 
     customThemes.push(newTheme);
 
@@ -170,7 +170,6 @@
         alert("Error: Invalid theme data.");
         return;
       }
-      newTheme.type = "custom";
 
       // check if the id already exist. if so, replace the existing one
       let existingTheme = customThemes.find((t) => t.id === newTheme.id);
@@ -207,31 +206,57 @@
 
 <div class="sidebar-panel">
   <h3>Themes</h3>
-  {#each allThemes as theme (theme.id)}
-    <label>
-      <input type="radio" name="theme" value={theme.id} bind:group={themeId} />
-      {theme.name}
 
-      {#if theme.type === "custom"}
-        <button
-          class="icon-button"
-          aria-label="Share Theme"
-          onclick={() => shareTheme(theme)}
-        >
-          <i class="ri-share-line"></i>
-        </button>
+  <table class="theme-list">
+    <thead>
+      <tr>
+        <th>Theme</th>
+        <th colspan="2">Author</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each allThemes as theme (theme.id)}
+        <tr>
+          <td>
+            <label>
+              <input
+                type="radio"
+                name="theme"
+                value={theme.id}
+                bind:group={themeId}
+              />
+              {theme.name}
+            </label>
+          </td>
 
-        <button
-          class="icon-button"
-          aria-label="Delete Theme"
-          onclick={() => delteTheme(theme)}
-        >
-          <i class="ri-delete-bin-6-line"></i>
-        </button>
-      {/if}
-    </label>
-  {/each}
+          <td>
+            {theme.author || "Default"}
+          </td>
 
+          <td>
+            {#if customThemes.includes(theme)}
+              <button
+                class="icon-button"
+                aria-label="Share Theme"
+                onclick={() => shareTheme(theme)}
+              >
+                <i class="ri-share-line"></i>
+              </button>
+
+              <button
+                class="icon-button"
+                aria-label="Delete Theme"
+                onclick={() => delteTheme(theme)}
+              >
+                <i class="ri-delete-bin-6-line"></i>
+              </button>
+            {/if}
+          </td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
   <div class="btn-group">
     <button class="btn btn-sm" onclick={() => newCustomTheme()}>
       <i class="ri-add-line"></i> New Custom Theme
@@ -251,9 +276,17 @@
 {/if}
 
 <style>
+  .theme-list {
+    border-collapse: collapse;
+  }
+
+  td {
+    padding: 0.1rem;
+  }
+
   label {
     display: block;
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
     height: 100%;
   }
 

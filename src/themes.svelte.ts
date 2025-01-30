@@ -4,7 +4,7 @@ export const themes: Theme[] = [
   {
     id: "fringo-default-light",
     name: "Fringo Light",
-    type: "application",
+    author: "",
     backgroundColor: "#aaaaaa",
     textColor: "#000000",
     grid: {
@@ -45,7 +45,7 @@ export const themes: Theme[] = [
   {
     id: "fringo-default-dark",
     name: "Fringo Dark",
-    type: "application",
+    author: "",
     backgroundColor: "#151515",
     textColor: "#ffffff",
     grid: {
@@ -87,7 +87,7 @@ export const themes: Theme[] = [
   {
     id: "fringo-default-unicorn",
     name: "Unicorn Poop",
-    type: "application",
+    author: "",
     backgroundColor: "linear-gradient(-45deg,#8832ff, #ff498f)",
     textColor: "#ffffff",
     grid: {

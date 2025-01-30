@@ -7,7 +7,7 @@ export interface ButtonColors {
 
 export interface Theme {
   id: string;
-  type: "application" | "custom";
+  author: string;
   name: string;
   backgroundColor: string;
   textColor: string;

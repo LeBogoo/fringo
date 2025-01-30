@@ -32,6 +32,12 @@
         expertOnly={false}
         bind:value={theme.name}
       />
+      <ThemeTextSetting
+        label="Author"
+        {expertMode}
+        expertOnly={false}
+        bind:value={theme.author}
+      />
       <ThemeColorSetting
         label={"Text Color"}
         expertOnly={false}
