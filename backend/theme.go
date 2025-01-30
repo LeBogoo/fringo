@@ -8,6 +8,7 @@ import (
 
 type ThemeSummary struct {
 	ID       string `json:"id"`
+	Author   string `json:"author"`
 	Name     string `json:"name"`
 	FileName string `json:"fileName"`
 	Hash     string `json:"hash"`

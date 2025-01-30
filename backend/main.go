@@ -28,7 +28,7 @@ func getVersionHandler(c echo.Context) error {
 }
 
 func getRepoHandler(c echo.Context) error {
-	return c.JSON(http.StatusOK, os.Getenv("GH_REPO"))
+	return c.String(http.StatusOK, os.Getenv("GH_REPO"))
 }
 
 func cloneRepo() error {
@@ -103,6 +103,7 @@ func updateSummaryCache() {
 		summaryCache = append(summaryCache, ThemeSummary{
 			ID:       theme.ID,
 			Name:     theme.Name,
+			Author:   theme.Author,
 			FileName: filename,
 			Hash:     theme.GetHash(),
 		})
@@ -172,6 +173,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
 
 	// Routes
 	e.GET("/user-themes", getUserThemesHandler)
