@@ -2,66 +2,33 @@
   import type { Theme } from "../Theme";
   import { customThemes, themeInfo } from "../../themes.svelte.js";
 
-  interface GithubRepoResponse {
-    sha: string;
-    url: string;
-    tree: Tree[];
-    truncated: boolean;
+  interface ThemeSummary {
+    id: string;
+    name: string;
+    fileName: string;
+    hash: string;
   }
 
-  interface Tree {
-    path: string;
-    mode: string;
-    type: string;
-    sha: string;
-    size?: number;
-    url: string;
-  }
-
-  interface GithubThemeResponse {
-    sha: string;
-    node_id: string;
-    size: number;
-    url: string;
-    content: string;
-    encoding: string;
-  }
-
-  const themeRepo = import.meta.env.VITE_THEME_REPO;
-  const repoUrl = `https://api.github.com/repos/${themeRepo}/git/trees/master?recursive=1`;
+  const baseUrl = import.meta.env.PROD ? "" : "http://localhost:8080";
 
   const { load } = $props();
 
   let failed = $state(false);
 
-  let userThemes = $state([]);
+  let themeSummary = $state([]);
+  let themeRepo = $state("");
 
   async function fetchThemes() {
-    const response = await fetch(repoUrl);
+    const repoResponse = await fetch(`${baseUrl}/repo`);
+    themeRepo = await repoResponse.text();
 
-    if (response.status !== 200) {
-      console.error("Failed to fetch themes:", response.statusText);
-      failed = true;
-      return;
-    }
-
-    const githubResponse = (await response.json()) as GithubRepoResponse;
-    console.log(githubResponse);
-
-    const themeFiles = githubResponse.tree.filter(
-      (e) => e.path.startsWith("themes/") && e.path.endsWith(".json")
-    );
-
-    userThemes = (await Promise.all(
-      themeFiles.map(async (theme) => {
-        const fileResponse = await fetch(theme.url);
-        const githubFile = (await fileResponse.json()) as GithubThemeResponse;
-        return JSON.parse(atob(githubFile.content));
-      })
-    )) as Theme[];
+    const summaryResponse = await fetch(`${baseUrl}/user-themes`);
+    themeSummary = (await summaryResponse.json()) as ThemeSummary[];
   }
 
-  function addTheme(theme: Theme) {
+  async function addTheme(summary: ThemeSummary) {
+    const response = await fetch(`${baseUrl}/user-themes/${summary.fileName}`);
+    const theme = (await response.json()) as Theme;
     customThemes.push(theme);
     themeInfo.themeId = theme.id;
   }
@@ -72,7 +39,7 @@
     if (load) fetchThemes();
     else
       setTimeout(() => {
-        userThemes = [];
+        themeSummary = [];
       }, 1000);
   });
 </script>
@@ -82,7 +49,7 @@
   <h4>Community Themes</h4>
   <br />
 
-  {#if userThemes.length === 0 && !failed}
+  {#if themeSummary.length === 0 && !failed}
     <p>Loading themes...</p>
   {:else if failed}
     <p>Failed to load community themes. Please try again later.</p>
@@ -96,12 +63,12 @@
         </tr>
       </thead>
       <tbody>
-        {#each userThemes as theme (theme.id)}
+        {#each themeSummary as summary (summary.id)}
           <tr>
-            <td>{theme.name}</td>
-            <td>{theme.author}</td>
+            <td>{summary.name}</td>
+            <td>{summary.author}</td>
             <td>
-              {#if customThemes.find((t) => t.id === theme.id)}
+              {#if customThemes.find((t) => t.id === summary.id)}
                 <span class="icon-button">
                   <i class="ri-check-line"></i>
                 </span>
@@ -109,7 +76,7 @@
                 <button
                   class="icon-button"
                   aria-label="Add Theme"
-                  onclick={() => addTheme(theme)}
+                  onclick={() => addTheme(summary)}
                 >
                   <i class="ri-add-line"></i>
                 </button>
@@ -124,7 +91,9 @@
   <small class="submit-theme">
     Want to share your own theme?
     <br />
-    <a href="https://github.com/{themeRepo}">Submit it on GitHub!</a>
+    <a target="_blank" href="https://github.com/{themeRepo}">
+      Submit it on GitHub!
+    </a>
   </small>
 </div>
 
