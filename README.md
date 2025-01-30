@@ -19,10 +19,18 @@ It’s bingo, but better. You cross off the things that happened on Stream.
 ### Requirements
 
 - Node.js
+- Go
 
-1. Clone the repository
+### Frontend
+
+1. Run `cd frontend`
 2. Run `npm install`
 3. Run `npm run dev`
+
+### Backend
+
+1. Run `cd backend`
+2. Run `go run .`
 
 ## How to build
 
@@ -30,5 +38,5 @@ It’s bingo, but better. You cross off the things that happened on Stream.
 
 - Docker
 
-1. Run `docker build --build-arg VITE_VERSION=0.0.0 --build-arg VITE_GIT_COMMIT=Unknown --build-arg VITE_THEME_REPO=lebogoo/fringo-themes -t fringo .`
-2. Run `docker run -p 80:80 fringo`
+1. Run `docker build --build-arg VERSION=0.0.0 --build-arg GIT_COMMIT=Unknown --build-arg GH_REPO=lebogoo/fringo-themes -t fringo .`
+2. Run `docker run -p 8080:8080 fringo`
