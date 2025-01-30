@@ -1,5 +1,9 @@
 import type { Theme } from "./lib/Theme";
 
+export let customThemes: Theme[] = $state(
+  JSON.parse(localStorage.getItem("customThemes") || "[]")
+);
+
 export const themes: Theme[] = [
   {
     id: "fringo-default-light",
@@ -125,3 +129,7 @@ export const themes: Theme[] = [
     },
   },
 ];
+
+export const themeInfo = $state({
+  themeId: localStorage.getItem("theme") || themes[0].id,
+});

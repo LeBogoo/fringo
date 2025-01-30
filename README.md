@@ -30,5 +30,5 @@ It’s bingo, but better. You cross off the things that happened on Stream.
 
 - Docker
 
-1. Run `docker build -t fringo .`
+1. Run `docker build --build-arg VITE_VERSION=0.0.0 --build-arg VITE_GIT_COMMIT=Unknown --build-arg VITE_THEME_REPO=lebogoo/fringo-themes -t fringo .`
 2. Run `docker run -p 80:80 fringo`

@@ -20,7 +20,21 @@
   font-size: 0.8rem;
 }
 
+.btn.btn-center {
+  display: block;
+  margin: 0 auto;
+}
+
 .btn-group {
   display: flex;
   justify-content: center;
+}
+
+.icon-button {
+  background: none;
+  color: var(--theme-button-text-color);
+  border: none;
+  font-size: 1.2rem;
+  margin: 0.125rem;
+  cursor: pointer;
 }

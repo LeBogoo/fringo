@@ -1,30 +1,34 @@
 <script lang="ts">
   import type { Theme } from "./Theme";
-  import { themes } from "../themes.svelte.js";
+  import { themes, customThemes, themeInfo } from "../themes.svelte.js";
   import ThemeEditor from "./theme-editor/ThemeEditor.svelte";
 
-  let customThemes: Theme[] = $state(
-    JSON.parse(localStorage.getItem("custom-themes") || "[]")
-  );
+  const {
+    onBrowserOpen,
+  }: {
+    onBrowserOpen: () => void;
+  } = $props();
 
   let allThemes = $derived([...themes, ...customThemes]);
-
-  let themeId = $state(localStorage.getItem("theme") || themes[0].id);
 
   let currentTheme = $state(null);
 
   $effect(() => {
-    currentTheme = [...themes, ...customThemes].find((t) => t.id === themeId);
+    currentTheme = [...themes, ...customThemes].find(
+      (t) => t.id === themeInfo.themeId
+    );
   });
 
   let isEditorOpen = $derived(customThemes.includes(currentTheme));
 
   function applyTheme(theme: Theme) {
     if (!theme) {
-      console.log(`Theme ${themeId} is in the deprecated format. Migrating...`);
+      console.log(
+        `Theme ${themeInfo.themeId} is in the deprecated format. Migrating...`
+      );
 
       let newTheme: Theme;
-      switch (themeId) {
+      switch (themeInfo.themeId) {
         case "dark":
           newTheme = themes[1];
           break;
@@ -32,7 +36,7 @@
           newTheme = themes[0];
           break;
       }
-      themeId = newTheme.id;
+      themeInfo.themeId = newTheme.id;
       return;
     }
     localStorage.setItem("theme", theme.id);
@@ -153,7 +157,7 @@
 
     customThemes.push(newTheme);
 
-    themeId = newTheme.id;
+    themeInfo.themeId = newTheme.id;
   }
 
   function loadCustomTheme() {
@@ -178,7 +182,7 @@
         customThemes[index] = newTheme;
       } else customThemes.push(newTheme);
 
-      themeId = newTheme.id;
+      themeInfo.themeId = newTheme.id;
     } catch (e) {
       alert("Error: Invalid theme data.");
       return;
@@ -200,7 +204,8 @@
 
     index += themes.length;
 
-    if (themeId == theme.id) themeId = allThemes[index - 1].id;
+    if (themeInfo.themeId == theme.id)
+      themeInfo.themeId = allThemes[index - 1].id;
   }
 </script>
 
@@ -224,14 +229,16 @@
                 type="radio"
                 name="theme"
                 value={theme.id}
-                bind:group={themeId}
+                bind:group={themeInfo.themeId}
               />
               {theme.name}
             </label>
           </td>
 
           <td>
-            {theme.author || "Default"}
+            {customThemes.includes(theme)
+              ? theme.author || "Unknown"
+              : "Default"}
           </td>
 
           <td>
@@ -265,6 +272,9 @@
       <i class="ri-upload-2-line"></i> Load Custom Theme
     </button>
   </div>
+  <button class="btn btn-sm btn-center" onclick={onBrowserOpen}
+    >Open Theme Browser</button
+  >
 
   <small class="theme-storage-info">
     Custom Themes are stored in your browser.<br />No manual saving is required.
@@ -300,13 +310,5 @@
     font-size: 0.8rem;
     letter-spacing: 0px;
     text-align: center;
-  }
-
-  .icon-button {
-    background: none;
-    color: var(--theme-button-text-color);
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
   }
 </style>

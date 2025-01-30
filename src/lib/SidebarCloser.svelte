@@ -4,19 +4,15 @@
 
 <button
   {...props}
-  class="sidebar-toggle {side}"
+  class="sidebar-closer {side}"
   class:active
-  aria-label="Toggle sidebar"
+  aria-label="Close sidebar"
 >
-  {#if side === "left"}
-    <i class="ri-arrow-right-line"></i>
-  {:else}
-    <i class="ri-arrow-left-line"></i>
-  {/if}
+  <i class="ri-close-line"></i>
 </button>
 
 <style>
-  .sidebar-toggle {
+  .sidebar-closer {
     position: fixed;
     top: 0.5rem;
     z-index: 1000;
@@ -28,36 +24,36 @@
     cursor: pointer;
   }
 
-  .sidebar-toggle.left {
-    left: 0.5rem;
+  .sidebar-closer.left {
+    left: -2.5rem;
     transition:
       left 0.3s ease-in-out,
       transform 0.3s;
   }
 
-  .sidebar-toggle.right {
-    right: 0.5rem;
+  .sidebar-closer.right {
+    right: -2.5rem;
     transition:
       right 0.3s ease-in-out,
       transform 0.3s;
   }
 
-  .sidebar-toggle.left.active {
-    transform: rotate(180deg);
+  .sidebar-closer.left.active {
+    transform: rotate(90deg);
     left: calc(max(25vw, 400px) - 4rem);
   }
 
-  .sidebar-toggle.right.active {
+  .sidebar-closer.right.active {
     right: calc(max(25vw, 400px) - 4rem);
-    transform: rotate(-180deg);
+    transform: rotate(-90deg);
   }
 
   @media (max-width: 750px) {
-    .sidebar-toggle.left.active {
+    .sidebar-closer.left.active {
       left: calc(90vw - 4rem);
     }
 
-    .sidebar-toggle.right.active {
+    .sidebar-closer.right.active {
       right: calc(90vw - 4rem);
     }
   }

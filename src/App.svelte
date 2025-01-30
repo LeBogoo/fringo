@@ -5,6 +5,7 @@
   import Sidebar from "./lib/Sidebar.svelte";
   import ThemeList from "./lib/ThemeList.svelte";
   import DebugDisplay from "./lib/DebugDisplay.svelte";
+  import ThemeBrowser from "./lib/theme-browser/ThemeBrowser.svelte";
 
   let userSeed =
     parseInt(localStorage.getItem("seed")) ||
@@ -90,6 +91,8 @@
     if (isFringo) headingText = `It's ${article} ${multiplier}Fringo!`;
     else headingText = "Fringo";
   }
+
+  let themeBrowserOpen = $state(false);
 </script>
 
 <svelte:head>
@@ -97,7 +100,10 @@
 </svelte:head>
 
 <Sidebar side="left">
-  <ThemeList></ThemeList>
+  <ThemeList onBrowserOpen={() => (themeBrowserOpen = true)} />
+</Sidebar>
+<Sidebar side="right" hideToggle={true} bind:visible={themeBrowserOpen}>
+  <ThemeBrowser load={themeBrowserOpen} />
 </Sidebar>
 
 <DebugDisplay></DebugDisplay>

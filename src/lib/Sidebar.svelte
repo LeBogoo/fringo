@@ -1,21 +1,28 @@
 <script lang="ts">
+  import SidebarCloser from "./SidebarCloser.svelte";
   import SidebarToggle from "./SidebarToggle.svelte";
   let {
     side,
+    hideToggle,
+    visible = $bindable(false),
     children,
   }: {
     side: "left" | "right";
+    hideToggle?: boolean;
+    visible?: boolean;
     children?: () => any;
   } = $props();
 
-  let visible = $state(false);
-
-  function toggle() {
+  export function toggle() {
     visible = !visible;
   }
 </script>
 
-<SidebarToggle onclick={toggle} active={visible} {side}></SidebarToggle>
+{#if !hideToggle}
+  <SidebarToggle onclick={toggle} active={visible} {side} />
+{:else}
+  <SidebarCloser onclick={toggle} active={visible} {side} />
+{/if}
 <div class="sidebar {side}" class:visible>
   <div class="spacer"></div>
   <div class="content">
