@@ -5,6 +5,7 @@
   interface ThemeSummary {
     id: string;
     name: string;
+    author: string;
     fileName: string;
     hash: string;
   }
@@ -15,7 +16,7 @@
 
   let failed = $state(false);
 
-  let themeSummary = $state([]);
+  let themeSummary: ThemeSummary[] = $state([]);
   let themeRepo = $state("");
 
   async function fetchThemes() {
@@ -26,10 +27,24 @@
     themeSummary = (await summaryResponse.json()) as ThemeSummary[];
   }
 
-  async function addTheme(summary: ThemeSummary) {
+  async function downloadTheme(summary: ThemeSummary) {
     const response = await fetch(`${baseUrl}/user-themes/${summary.fileName}`);
     const theme = (await response.json()) as Theme;
+    theme.hash = summary.hash;
+
+    return theme;
+  }
+
+  async function addTheme(summary: ThemeSummary) {
+    const theme = await downloadTheme(summary);
     customThemes.push(theme);
+    themeInfo.themeId = theme.id;
+  }
+
+  async function updateTheme(summary: ThemeSummary) {
+    const theme = await downloadTheme(summary);
+    const index = customThemes.findIndex((t) => t.id === summary.id);
+    customThemes[index] = theme;
     themeInfo.themeId = theme.id;
   }
 
@@ -69,9 +84,19 @@
             <td>{summary.author}</td>
             <td>
               {#if customThemes.find((t) => t.id === summary.id)}
-                <span class="icon-button">
-                  <i class="ri-check-line"></i>
-                </span>
+                {#if customThemes.find((t) => t.id === summary.id).hash != summary.hash}
+                  <button
+                    class="icon-button"
+                    aria-label="Update Theme"
+                    onclick={() => updateTheme(summary)}
+                  >
+                    <i class="ri-loop-right-line"></i>
+                  </button>
+                {:else}
+                  <span class="icon-button">
+                    <i class="ri-check-line"></i>
+                  </span>
+                {/if}
               {:else}
                 <button
                   class="icon-button"
