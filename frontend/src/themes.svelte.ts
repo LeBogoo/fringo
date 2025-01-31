@@ -87,47 +87,6 @@ export const themes: Theme[] = [
       indicatorColor: "#ffffff",
     },
   },
-
-  {
-    id: "fringo-default-unicorn",
-    name: "Unicorn Poop",
-    author: "",
-    backgroundColor: "linear-gradient(-45deg,#8832ff, #ff498f)",
-    textColor: "#ffffff",
-    grid: {
-      color: "#7322ff",
-    },
-    field: {
-      default: {
-        color: "#ff87e4",
-        hoverColor: "#ff7ce2",
-      },
-      checked: {
-        color: "#ff00f5",
-        hoverColor: "#ff5af9",
-      },
-      gay: {
-        color:
-          "conic-gradient(red 0%, orange 14%, yellow 28%, green 42%, blue 57%, indigo 71%, violet 85%, red 100%) 50% 50%",
-        hoverColor:
-          "conic-gradient(red 0%, orange 14%, yellow 28%, green 42%, blue 57%, indigo 71%, violet 85%, red 100%) 50% 50%",
-        textOutlineColor: "#ca00ff",
-      },
-    },
-    button: {
-      color: "#ff75e0",
-      hoverColor: "#ff8ee6",
-    },
-    sidebar: {
-      color: "#9b277faa",
-      backgroundBlur: "5px",
-    },
-    input: {
-      color: "#ff87e4",
-      activeColor: "#ff00f5",
-      indicatorColor: "#ffffff",
-    },
-  },
 ];
 
 export const themeInfo = $state({
