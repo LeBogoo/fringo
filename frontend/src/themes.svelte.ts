@@ -1,7 +1,7 @@
 import type { Theme } from "./lib/Theme";
 
 export let customThemes: Theme[] = $state(
-  JSON.parse(localStorage.getItem("customThemes") || "[]")
+  JSON.parse(localStorage.getItem("custom-themes") || "[]")
 );
 
 export const themes: Theme[] = [
