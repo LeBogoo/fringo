@@ -11,6 +11,7 @@ export const images = [
   "image10_lr.png",
   "image11_lr.png",
   "image12_lr.png",
+  "image13_lr.png",
 ];
 
 export const goals = [
@@ -49,4 +50,7 @@ export const goals = [
   "Deliberate cringe",
   '"Do you think/what if?"',
   "Tea propaganda",
+  "Microplastics",
+  "Job Search",
+  "Fuck the rich"
 ];
