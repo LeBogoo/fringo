@@ -52,5 +52,7 @@ export const goals = [
   "Tea propaganda",
   "Microplastics",
   "Job Search",
-  "Fuck the rich"
+  "Fuck the rich",
+  "Mentions Fringo",
+  "Minecraft Movie Quote"
 ];
